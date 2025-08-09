@@ -70,21 +70,21 @@ def getwinner(data): # takes in "<color1> <color2> <1/2>"
     updatefile()
 
 class Handler(BaseHTTPRequestHandler):
+    def send_cors_headers(self):
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_cors_headers()
+        self.end_headers()
+
     def do_GET(self):
-        if (not self.path.startswith("/api")):
-            self.send_response(200)
-            self.send_header("Content-type", "text/html")
-            self.end_headers()
-
-            html_file = open("front/index.html")
-
-            html_cont = html_file.read()
-            self.wfile.write(html_cont.encode())
-
-            html_file.close() # close html file
-        else:
+        if (self.path.startswith("/api")):
             if (self.path == "/api/get-colors-to-grade"):
                 self.send_response(200)
+                self.send_cors_headers()
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
 
@@ -93,6 +93,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.wfile.write(resp.encode())
             elif (self.path == "/api/send-leaderboard"):
                 self.send_response(200)
+                self.send_cors_headers()
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
 
@@ -100,6 +101,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.wfile.write(resp.encode())
             else:
                 self.send_response(404)
+                self.send_cors_headers()
                 self.send_header("Content-type", "application/json")
                 self.end_headers()
 
@@ -113,11 +115,13 @@ class Handler(BaseHTTPRequestHandler):
         if (self.path == "/api/say-result"):
             getwinner(body)
             self.send_response(200)
+            self.send_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps({"status": "ok"}).encode())
         else:
             self.send_response(404)
+            self.send_cors_headers()
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps({"error": "API endpoint not found"}).encode())
