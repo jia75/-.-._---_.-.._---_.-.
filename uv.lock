@@ -1,0 +1,7 @@
+version = 1
+requires-python = ">=3.12"
+
+[[package]]
+name = "color"
+version = "0.2.0"
+source = { virtual = "." }
