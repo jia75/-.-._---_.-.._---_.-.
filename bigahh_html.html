@@ -9,6 +9,17 @@
             body {
                 font-family: "Space Mono", monospace;
                 text-align: center;
+                margin: 0;
+            }
+            .colorss {
+                display: inline-block;
+                width:40vw;
+                height: 100vh;
+                padding:calc(5vw-7px);
+                overflow: hidden;
+                border: solid black 2px;
+                border-radius: 20px;
+                box-shadow: 0 0 10px 5px rgba(0,0,0,0.3);
             }
         </style>
         <script>
@@ -29,7 +40,7 @@
                 const controller = new AbortController()
                 const timeout = setTimeout(() => controller.abort(), 5000) // 5s
                 try {
-                    const res = await fetch('/api/say-result', {
+                    const result = await fetch('/api/say-result', {
                         method: 'POST',
                         headers: { 'content-type': 'text/plain' },
                         body: the,
@@ -37,19 +48,27 @@
                         credentials: 'include' // send cookies if needed
                     })
                     clearTimeout(timeout)
-                    if (!res.ok) throw new Error(await res.text())
-                    const result = await res.json()
+                    if (!result.ok) throw new Error(await result)
                     console.log(result)
                 } catch (err) {
                     if (err.name === 'AbortError') console.warn('request timed out')
                     else console.error('fetch error', err)
                 }
+                getcolors()
             }
             async function getcolors() {
                 const res = await fetch('/api/get-colors-to-grade')
                 if (!res.ok) throw new Error(res.status + ' ' + res.statusText)
-                const data = await res
+                const data = await res.text()
                 console.log(data)
+
+                ent = data.split(" ")
+
+                colorone = ent[0]
+                colortwo = ent[1]
+
+                document.getElementById("coll-one").style.backgroundColor = "#"+colorone
+                document.getElementById("coll-two").style.backgroundColor = "#"+colortwo
             }
             
         </script>
@@ -57,10 +76,11 @@
     <body>
         <button onclick="gochoice()">Choice</button>
         <button onclick="gorank()">rank</button>
-        <div id="choice-page">
+        <div id="choice-page" onload="getcolors()">
             <h1>choose your favorite color between the two following</h1>
-            <span onclick="choose(1)">col1</span>
-            <span onclick="choose(2)">col2</span>
+            <span class="colorss" id="coll-one" onclick="choose(1)"></span>
+            <span class="colorss" id="coll-two" onclick="choose(2)"></span>
+            <script>getcolors()</script>
         </div>
         <div id="rank-page" style="display: none">
             <h1>these are the rankings chat</h1>
