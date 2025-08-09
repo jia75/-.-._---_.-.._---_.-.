@@ -75,7 +75,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Content-type", "text/html")
             self.end_headers()
 
-            html_file = open("index.html")
+            html_file = open("front/index.html")
 
             html_cont = html_file.read()
             self.wfile.write(html_cont.encode())
