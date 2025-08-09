@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import random
 import csv
+import socket
 
 # CONFIG
 maxChange = 10
@@ -119,5 +120,5 @@ class Handler(BaseHTTPRequestHandler):
             
 
 
-
+print(f"Server running at http://localhost:2086/ and http://<ip address>:2086/")
 HTTPServer(("0.0.0.0", 2086), Handler).serve_forever()
