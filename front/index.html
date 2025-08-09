@@ -44,12 +44,12 @@
                     document.getElementById("choice-page").style.display = "block"
                     document.getElementById("rank-page").style.display = "none"
                     curmode="choice"
-                    document.getElementById("icon").src = "../podium.png"
+                    document.getElementById("icon").src = "podium.png"
                 } else {
                     document.getElementById("choice-page").style.display = "none"
                     document.getElementById("rank-page").style.display = "block"
                     curmode="rank"
-                    document.getElementById("icon").src = "../voting.png"
+                    document.getElementById("icon").src = "voting.png"
                 }
             }
             async function choose(the) {
@@ -96,7 +96,7 @@
         </script>
     </head>
     <body>
-        <span onclick="swap()" class="swapbtn"><img id="icon" src="../podium.png" alt="Podium icon to switch to leaderboard"></span>
+        <span onclick="swap()" class="swapbtn"><img id="icon" src="podium.png" alt="Podium icon to switch to leaderboard"></span>
         <div id="choice-page" onload="getcolors()">
             <span class="colorss" id="coll-one" onclick="choose(1)"></span>
             <span class="colorss" id="coll-two" onclick="choose(2)"></span>
