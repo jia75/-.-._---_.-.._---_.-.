@@ -62,8 +62,9 @@
                         credentials: 'include' // send cookies if needed
                     })
                     clearTimeout(timeout)
-                    if (!result.ok) throw new Error(await result)
-                    console.log(result)
+                    if (!result.ok) throw new Error(await result.text())
+                    const resp = await result.json()
+                    console.log(resp)
                 } catch (err) {
                     if (err.name === 'AbortError') console.warn('request timed out')
                     else console.error('fetch error', err)
@@ -73,22 +74,18 @@
             async function getcolors() {
                 const res = await fetch('/api/get-colors-to-grade')
                 if (!res.ok) throw new Error(res.status + ' ' + res.statusText)
-                const data = await res.text()
-
-                ent = data.split(" ")
-
-                colorone = ent[0]
-                colortwo = ent[1]
-
+                const data = await res.json()
+                colorone = data.color1
+                colortwo = data.color2
                 document.getElementById("coll-one").style.backgroundColor = "#"+colorone
                 document.getElementById("coll-two").style.backgroundColor = "#"+colortwo
             }
             async function getleaderboard() {
                 const res = await fetch('/api/send-leaderboard')
                 if (!res.ok) throw new Error(res.status + ' ' + res.statusText)
-                const data = await res.text()
+                const data = await res.json()
                 for (let i = 0; i< 64;++i) {
-                    document.getElementById("colornew-"+i).style.backgroundColor = "#"+data.slice(3*i,3*i+3)
+                    document.getElementById("colornew-"+i).style.backgroundColor = "#"+data.leaderboard[i]
                 }
             }
         </script>

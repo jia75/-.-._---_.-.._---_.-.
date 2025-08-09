@@ -2,6 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import random
 import csv
 import socket
+import json
 
 # CONFIG
 maxChange = 10
@@ -84,27 +85,25 @@ class Handler(BaseHTTPRequestHandler):
         else:
             if (self.path == "/api/get-colors-to-grade"):
                 self.send_response(200)
-                self.send_header("Content-type", "text/plain")
+                self.send_header("Content-type", "application/json")
                 self.end_headers()
 
-                resp = getcolorstograde()
-
+                color1, color2 = getcolorstograde().split()
+                resp = json.dumps({"color1": color1, "color2": color2})
                 self.wfile.write(resp.encode())
             elif (self.path == "/api/send-leaderboard"):
                 self.send_response(200)
-                self.send_header("Content-type", "text/plain")
+                self.send_header("Content-type", "application/json")
                 self.end_headers()
 
-                resp = getleaderboard()
-
+                resp = json.dumps({"leaderboard": leaderboard})
                 self.wfile.write(resp.encode())
             else:
-                self.send_response(200)
-                self.send_header("Content-type", "text/plain")
+                self.send_response(404)
+                self.send_header("Content-type", "application/json")
                 self.end_headers()
 
-                resp = "sorry man no api now"
-
+                resp = json.dumps({"error": "API endpoint not found"})
                 self.wfile.write(resp.encode())
     def do_POST(self):
         length = int(self.headers.get("Content-Length", 0))
@@ -113,11 +112,15 @@ class Handler(BaseHTTPRequestHandler):
         
         if (self.path == "/api/say-result"):
             getwinner(body)
-
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b"ok")
-            
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"status": "ok"}).encode())
+        else:
+            self.send_response(404)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"error": "API endpoint not found"}).encode())
 
 
 print(f"Server running at http://localhost:2086/ and http://<ip address>:2086/")
