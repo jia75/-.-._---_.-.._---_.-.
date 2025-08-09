@@ -44,13 +44,13 @@
                     document.getElementById("choice-page").style.display = "block"
                     document.getElementById("rank-page").style.display = "none"
                     curmode="choice"
-                    document.getElementById("icon").src = "podium.png"
+                    document.getElementById("icon").src = "https://hc-cdn.hel1.your-objectstorage.com/s/v3/102fc5820eb626bf9804546ebc69522dd6068537_podium.png"
                     document.getElementById("icon").alt = "Podium icon to switch to leaderboard"
                 } else {
                     document.getElementById("choice-page").style.display = "none"
                     document.getElementById("rank-page").style.display = "block"
                     curmode="rank"
-                    document.getElementById("icon").src = "voting.png"
+                    document.getElementById("icon").src = "https://hc-cdn.hel1.your-objectstorage.com/s/v3/2395ee8131b0ad661abb716f376bc50ece648a49_voting.png"
                     document.getElementById("icon").alt = "Voting icon to switch to ranker"
                 }
             }
@@ -98,7 +98,7 @@
         </script>
     </head>
     <body>
-        <span onclick="swap()" class="swapbtn"><img id="icon" src="podium.png" alt="Podium icon to switch to leaderboard"></span>
+        <span onclick="swap()" class="swapbtn"><img id="icon" src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/102fc5820eb626bf9804546ebc69522dd6068537_podium.png" alt="Podium icon to switch to leaderboard"></span>
         <div id="choice-page" onload="getcolors()">
             <span class="colorss" id="coll-one" onclick="choose(1)"></span>
             <span class="colorss" id="coll-two" onclick="choose(2)"></span>
