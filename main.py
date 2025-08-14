@@ -20,6 +20,9 @@ leaderboard = []
 for row in cols:
     leaderboard.append(row[0])
 
+class ReuseHTTPServer(HTTPServer):
+    allow_reuse_address = True
+
 def getindexfromcolor(color):
     antidigs = {"0" : 0,"6":1,"a":2,"f":3}
     return antidigs[color[0]]*16+antidigs[color[1]]*4+antidigs[color[2]]
@@ -124,4 +127,4 @@ class Handler(BaseHTTPRequestHandler):
 
 
 print(f"Server running at http://localhost:2086/ and http://<ip address>:2086/")
-HTTPServer(("0.0.0.0", 2086), Handler).serve_forever()
+ReuseHTTPServer(("0.0.0.0", 2086), Handler).serve_forever()
